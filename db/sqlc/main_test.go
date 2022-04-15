@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"os"
 	"testing"
@@ -12,10 +13,9 @@ import (
 var testQueries *Queries
 var testDB *sql.DB
 
-const (
-	dbDriver = "postgres"
-	dbSource = "postgresql://root:secret@localhost:5455/simple_bank?sslmode=disable"
-)
+const dbDriver = "postgres"
+
+var dbSource = fmt.Sprintf("postgresql://%s:%s@localhost:%s/simple_bank?sslmode=disable", os.Getenv("SB_PGUSER"), os.Getenv("SB_PGPASS"), os.Getenv("SB_PGPORT"))
 
 func TestMain(m *testing.M) {
 	var err error

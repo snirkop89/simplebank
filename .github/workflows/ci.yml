@@ -41,3 +41,8 @@ jobs:
 
     - name: Test
       run: make test
+      env:
+      SB_PGHOST: localhost
+      SB_PGPORT: 5432
+      SB_PGUSER: root
+      SB_PGPASS: secret
