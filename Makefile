@@ -1,5 +1,7 @@
+.PHONY: postgres createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test server mock
+
 postgres:
-	docker run --name postgres14 -p 5455:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:14.2-alpine
+	docker run --name postgres14 --network bank-network -p 5455:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:14.2-alpine
 
 createdb:
 	docker exec -it postgres14 createdb --username=root --owner=root simple_bank
@@ -32,4 +34,5 @@ mock:
 	cd ./db/sqlc && \
 	mockgen --build_flags=--mod=mod -package mockdb -destination ../../db/mock/store.go . Store
 
-.PHONY: postgres createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test server mock
+docker-build:
+	docker build -t simplebank:latest .
