@@ -21,6 +21,9 @@ migratedown:
 migratedown1:
 	migrate -path db/migrations/ -database "postgresql://root:secret@localhost:5455/simple_bank?sslmode=disable" -verbose down 1
 
+new_migration:
+	migrate create -ext sql -dir db/migrations -seq $(name)
+
 sqlc:
 	sqlc generate
 
