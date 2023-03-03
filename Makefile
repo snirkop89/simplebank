@@ -51,5 +51,9 @@ proto:
     	--go-grpc_out=pb --go-grpc_opt=paths=source_relative \
     	proto/*.proto
 
+.PHONY: evans
+evans:
+	evans --host localhost --port 9090 -r repl
+
 docker-build:
 	docker build -t simplebank:latest .
