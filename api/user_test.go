@@ -54,3 +54,7 @@ func randomUser(t *testing.T) (user db.User, password string) {
 	return user, util.RandomString(10)
 
 }
+
+func TestUpdateUserOnlyFullName(t *testing.T) {
+	// TODO
+}
