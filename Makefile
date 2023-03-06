@@ -1,6 +1,6 @@
 DB_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
 
-.PHONY: postgres createdb dropdb migrateup migrateup1 migratedown migratedown1 dbdocs dbschema sqlc test server mock proto
+.PHONY: postgres createdb dropdb migrateup migrateup1 migratedown migratedown1 dbdocs dbschema sqlc test server mock proto redis
 
 postgres:
 	docker run --name simplebank --network bank-network -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:14.2-alpine
@@ -58,6 +58,9 @@ proto:
 .PHONY: evans
 evans:
 	evans --host localhost --port 9090 -r repl
+
+redis:
+	docker run --name redis -p 6380:6379 -d redis:7-alpine
 
 docker-build:
 	docker build -t simplebank:latest .
