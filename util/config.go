@@ -19,6 +19,12 @@ type Config struct {
 	TokenSymmetricKey   string        `mapstructure:"TOKEN_SYMMETRIC_KEY"`
 	AccessTokenDuration time.Duration `mapstructure:"ACCESS_TOKEN_DURATION"`
 	RefreshTokenDuarion time.Duration `mapstructure:"REFRESH_TOKEN_DURATION"`
+	SmtpSenderName      string        `mapstructure:"SMTP_SENDER_NAME"`
+	SmtpSenderAddress   string        `mapstructure:"SMTP_SENDER_ADDRESS"`
+	SmtpUsername        string        `mapstructure:"SMTP_USERNAME"`
+	SmtpPassword        string        `mapstructure:"SMTP_PASSWORD"`
+	SmtpHost            string        `mapstructure:"SMTP_HOST"`
+	SmtpPort            int           `mapstructure:"SMTP_PORT"`
 }
 
 // LoadConfig reads ocnfiguration from path
