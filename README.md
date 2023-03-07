@@ -7,4 +7,5 @@
 - [SQLC](https://github.com/kyleconroy/sqlc#installation)
 - [GOMock](https://github.com/golang/mock)
 
-[ ] - Finish testing for user
+[ ] - Finish tests for functions
+[ ] - Process email verification

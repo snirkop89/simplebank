@@ -1,8 +1,6 @@
 package mail
 
 import (
-	"fmt"
-
 	"gopkg.in/mail.v2"
 )
 
@@ -46,8 +44,6 @@ func (sender *Sender) SendEmail(subject string, content string, to []string, cc 
 	for _, f := range attachFiles {
 		msg.Attach(f)
 	}
-
-	fmt.Printf("%#v\n", msg)
 
 	return d.DialAndSend(msg)
 }
