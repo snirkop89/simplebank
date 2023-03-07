@@ -6,6 +6,7 @@ import (
 	"github.com/hibiken/asynq"
 	"github.com/rs/zerolog/log"
 	db "github.com/snirkop89/simplebank/db/sqlc"
+	"github.com/snirkop89/simplebank/mail"
 )
 
 const (
@@ -21,11 +22,12 @@ type TaskProcessor interface {
 type RedisTaskProcessor struct {
 	server *asynq.Server
 	store  db.Store
+	mailer mail.EmailSender
 }
 
 var _ TaskProcessor = &RedisTaskProcessor{}
 
-func NewRedisTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store) *RedisTaskProcessor {
+func NewRedisTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store, mailer mail.EmailSender) *RedisTaskProcessor {
 	server := asynq.NewServer(redisOpt, asynq.Config{
 		Queues: map[string]int{
 			QueueCritical: 10,
@@ -39,6 +41,7 @@ func NewRedisTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store) *Redis
 	return &RedisTaskProcessor{
 		server: server,
 		store:  store,
+		mailer: mailer,
 	}
 }
 

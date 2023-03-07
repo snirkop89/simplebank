@@ -13,6 +13,7 @@ import (
 	"github.com/rs/zerolog/log"
 
 	_ "github.com/snirkop89/simplebank/doc/statik"
+	"github.com/snirkop89/simplebank/mail"
 	"github.com/snirkop89/simplebank/worker"
 
 	"github.com/golang-migrate/migrate/v4"
@@ -59,7 +60,7 @@ func main() {
 	}
 	taskDistributor := worker.NewRedisTaskDistributor(redisOpt)
 
-	go runTaskProcessor(redisOpt, store)
+	go runTaskProcessor(redisOpt, store, config)
 	go runGatewayServer(config, store, taskDistributor)
 	runGrpcServer(config, store, taskDistributor)
 }
@@ -75,8 +76,16 @@ func runDBMigration(migrationURL string, dbSource string) {
 	log.Info().Msg("DB migrated successfuly")
 }
 
-func runTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store) {
-	tp := worker.NewRedisTaskProcessor(redisOpt, store)
+func runTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store, config util.Config) {
+	mailer := mail.NewSender(mail.SMTPConfig{
+		Host:          config.SmtpHost,
+		Port:          config.SmtpPort,
+		Username:      config.SmtpUsername,
+		Password:      config.SmtpPassword,
+		SenderName:    config.SmtpSenderName,
+		SenderAddress: config.SmtpSenderAddress,
+	})
+	tp := worker.NewRedisTaskProcessor(redisOpt, store, mailer)
 	log.Info().Msg("start task processor")
 	err := tp.Start()
 	if err != nil {

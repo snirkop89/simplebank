@@ -1,7 +1,6 @@
 package mail
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/snirkop89/simplebank/util"
@@ -23,9 +22,6 @@ func TestSendEmail(t *testing.T) {
 		SenderName:    config.SmtpSenderName,
 		SenderAddress: config.SmtpSenderAddress,
 	}
-
-	fmt.Printf("%+v\n", smtpConfig)
-
 	sender := NewSender(smtpConfig)
 	subjet := "A test email"
 	content := `
